@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('reason');
             $table->date('join_date');
             $table->integer('scale');
+            $table->string('image');
 
             $table->unsignedBigInteger('job_id');
             $table->foreign('job_id')->references('id')->

@@ -13,4 +13,11 @@ Route::post('/store', [EmployeeController::class , 'store'])->name('store');
 
 Route::get('/create', [EmployeeController::class, 'createEmployee'])->name('createEmployee');
 
+Route::get('/edit/{id}', [EmployeeController::class, 'editEmployee'])->name('editEmployee');
 
+Route::patch('/update/{id}', [EmployeeController::class, 'updateEmployee'])->name('updateEmployee');
+
+Route::delete('/delete/{id}', [EmployeeController::class, 'deleteEmployee'])->name('deleteEmployee');
+//post = msk db
+//get = view
+//patch = update

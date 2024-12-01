@@ -42,15 +42,19 @@
 
   <div class="container">  <div class="row row-cols-md-4">  @foreach ($employees as $employee)
         <div class="col mb-3">  <div class="card" style="width: 18rem;">
-            <img src="" class="card-img-top" alt="...">
+            <img src="{{asset('/storage/images/'. $employee->image)}}" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">Name: {{$employee->name}}</h5>
               <p class="card-text">Reason to Join: {{$employee->reason}}</p>
               <p class="card-text">Join Date: {{$employee->join_date}}</p>
               <p class="card-text">Interest Scale: {{$employee->scale}}</p>
               <p class="card-text">Jobdesk: {{$employee->jobdesk->job_category}}</p>
-              <a href="" class="btn btn-success">Edit</a>
-              <button type="" class="btn btn-danger">Delete</button>
+              <a href="{{route('editEmployee', $employee->id)}}" class="btn btn-success">Edit</a>
+              <form action="{{route('deleteEmployee', $employee->id)}}" method = "POST">
+                @csrf
+                @method('delete')
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
             </div>
           </div>
         </div>

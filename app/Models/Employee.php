@@ -13,6 +13,7 @@ use HasFactory;
         'reason',
         'join_date',
         'scale',
+        'image',
         'job_id'
     ];
 
