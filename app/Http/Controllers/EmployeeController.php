@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use App\Models\Jobdesk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class EmployeeController extends Controller
 {
@@ -60,7 +61,7 @@ class EmployeeController extends Controller
             'reason' => 'required|string|min:5',
             'join_date' => 'required|date',
             'scale' => 'required|integer|between:1,10',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'nullable|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -77,28 +78,30 @@ class EmployeeController extends Controller
             $file = $request->file('image');
             $fileName = $request->name . '-' . $file->getClientOriginalName();
             $file->move($filePath, $fileName);
-
-            // Update the employee record with the new image path
-            $employee->update([
-                'name' => $request->name,
-                'reason' => $request->reason,
-                'join_date' => $request->join_date,
-                'scale' => $request->scale,
-                'image' => $fileName,
-            ]);
-        } else {
-            // If no new image is uploaded, update other fields without changing the image path
-            $employee->update([
-                'name' => $request->name,
-                'reason' => $request->reason,
-                'join_date' => $request->join_date,
-                'scale' => $request->scale,
-            ]);
+        }else{
+            $fileName = $employee->image;
         }
+
+        $employee->update([
+            'name' => $request->name,
+            'reason' => $request->reason,
+            'join_date' => $request->join_date,
+            'scale' => $request->scale,
+            'image' => $fileName
+        ]);
+
         return redirect()->route('welcome');
     }
 
     public function deleteEmployee($id){
+        $employee = Employee::findOrFail($id);
+
+        if ($employee->image) {
+            $oldImagePath = public_path('storage/images/' . $employee->image);
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath);
+            }
+        }
         Employee::destroy($id);
         return redirect()->route('welcome');
     }

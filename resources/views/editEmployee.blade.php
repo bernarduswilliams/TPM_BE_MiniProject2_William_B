@@ -30,7 +30,7 @@
 
     <div class="p-5">
         <h1 class="text-center">Edit Employee Data</h1>
-        <form action="{{route('updateEmployee', $employee->id)}}" method="POST" enctype="">
+        <form action="{{route('updateEmployee', $employee->id)}}" method="POST" enctype="multipart/form-data">
             @csrf {{-- !WAJIB! --}}
             @method('patch')
 
@@ -84,8 +84,8 @@
                     <p>No image uploaded yet.</p>
                 @endif
 
-            <!-- Input file -->
-            <input type="file" class="form-control" id="" name="image">
+                <!-- Input file -->
+                <input type="file" class="form-control" id="" name="image" accept=".jpeg, .jpg, .png"   >
             </div>
 
             {{-- <div class="mb-3">
